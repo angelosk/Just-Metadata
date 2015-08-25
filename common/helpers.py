@@ -8,9 +8,9 @@ import os
 
 def print_header():
     os.system('cls'if os.name == 'nt' else 'clear')
-    print "#" * 80
-    print "#" + " " * 32 + "Just-Metadata" + " " * 33 + "#"
-    print "#" * 80
+    print("#" * 80)
+    print("#" + " " * 32 + "Just-Metadata" + " " * 33 + "#")
+    print("#" * 80)
     return
 
 

@@ -5,7 +5,7 @@ the framework.  It uses ip-api.com
 
 import json
 import time
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from common import helpers
 
 
@@ -17,24 +17,24 @@ class IntelGather:
 
     # This will sort the dictionary passed into it (or called on itself)
     def dict_sorter(self, data_dictionary):
-        return sorted(data_dictionary.items(), key=lambda x: x[1])
+        return sorted(list(data_dictionary.items()), key=lambda x: x[1])
 
     def gather(self, all_ips):
 
-        for path, incoming_ip_obj in all_ips.iteritems():
+        for path, incoming_ip_obj in all_ips.items():
 
             if incoming_ip_obj[0].ip_country == "" and incoming_ip_obj[0].ip_city == "" and incoming_ip_obj[0].ip_isp == "" and incoming_ip_obj[0].ip_latitude == "":
 
                 # Make request for information about IPs
-                print "Getting info on... " + incoming_ip_obj[0].ip_address
+                print("Getting info on... " + incoming_ip_obj[0].ip_address)
                 try:
-                    response = urllib2.urlopen('http://ip-api.com/json/' + incoming_ip_obj[0].ip_address)
+                    response = urllib.request.urlopen('http://ip-api.com/json/' + incoming_ip_obj[0].ip_address)
                     json_response = response.read()
                     decoded_json = json.loads(json_response)
 
                     # Check for failed response (such as a reserved range)
                     if decoded_json['status'].encode('utf-8') == "fail":
-                        print helpers.color("[*] Could not retrieve information for " + incoming_ip_obj[0].ip_address, warning=True)
+                        print(helpers.color("[*] Could not retrieve information for " + incoming_ip_obj[0].ip_address, warning=True))
                     else:
 
                         # Load info into IP object
@@ -65,7 +65,7 @@ class IntelGather:
 
                     # Sleep is here to make sure we don't go over API limits
                     time.sleep(.25)
-                except urllib2.URLError:
-                    print helpers.color("[!] Cannot receive IP Geo Information from source!", warning=True)
-                    print helpers.color("[!] Moving to the next IP address...", warning=True)
+                except urllib.error.URLError:
+                    print(helpers.color("[!] Cannot receive IP Geo Information from source!", warning=True))
+                    print(helpers.color("[!] Moving to the next IP address...", warning=True))
         return

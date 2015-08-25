@@ -20,13 +20,13 @@ class Analytics:
     def analyze(self, all_ip_objects):
 
         if self.port_search == '':
-            print "You selected the \"Port_search\" module, which port are you looking for?"
-            print "Ex: 80"
-            self.port_search = int(raw_input(' \n\n[>] Port: ').strip())
+            print("You selected the \"Port_search\" module, which port are you looking for?")
+            print("Ex: 80")
+            self.port_search = int(input(' \n\n[>] Port: ').strip())
 
         top_ports = {}
 
-        for path, single_ip in all_ip_objects.iteritems():
+        for path, single_ip in all_ip_objects.items():
             if single_ip[0].shodan_info is not '' and\
                 'No available information within Shodan about' not in\
                     single_ip[0].shodan_info:
@@ -38,14 +38,14 @@ class Analytics:
 
         # Check if requested port is in dictionary
         if self.port_search in top_ports:
-            print "Port " + str(self.port_search) + " is open on the following IPs:"
-            print "*" * 50
+            print("Port " + str(self.port_search) + " is open on the following IPs:")
+            print("*" * 50)
             for ip_address in top_ports[self.port_search]:
-                print helpers.color(ip_address)
+                print(helpers.color(ip_address))
         else:
             helpers.color("Port not open on any loaded IP address!", warning=True)
 
         return
 
     def dict_sorter(self, data_dictionary):
-        return sorted(data_dictionary.items(), key=lambda x: len(x[1]))
+        return sorted(list(data_dictionary.items()), key=lambda x: len(x[1]))

@@ -39,8 +39,11 @@ class Conductor:
         self.analytical_transforms = {}
 
         # Fix the unicode error issue
-        reload(sys)
-        sys.setdefaultencoding('utf-8')
+        try:
+                imp.reload(sys)
+                sys.setdefaultencoding('utf-8')
+        except (NameError, AttributeError): # Python 3 fix
+                pass
 
         # Command line arguments
         self.cli_args = command_args
@@ -80,7 +83,7 @@ class Conductor:
         result = ""
 
         if type(var) is dict:
-            for field, value in var.iteritems():
+            for field, value in var.items():
                 try:
                     result += "\n" + tabs * "\t" + field.encode('utf-8') + ": " + self.collapse(
                         value, tabs=(tabs + 1))
@@ -95,7 +98,7 @@ class Conductor:
         elif var is None:
             result += "No Information Available"
 
-        elif type(var) is float or type(var) is int or type(var) is long\
+        elif type(var) is float or type(var) is int or type(var) is int\
                 or type(var) is bool:
             result += str(var)
 
@@ -111,16 +114,16 @@ class Conductor:
         # after that, only values
         add_header = True
 
-        for path, ip_objd in self.ip_objects.iteritems():
+        for path, ip_objd in self.ip_objects.items():
             attrs = vars(ip_objd[0])
             with open('export_' + current_date + '_' + current_time + '.csv', 'a') as export_file:
-                csv_file = csv.DictWriter(export_file, attrs.keys())
+                csv_file = csv.DictWriter(export_file, list(attrs.keys()))
                 if add_header:
                     csv_file.writeheader()
                     add_header = False
                 csv_file.writerow(attrs)
 
-        print helpers.color("\nExport file saved to disk at export_" + current_date + "_" + current_time + ".csv")
+        print(helpers.color("\nExport file saved to disk at export_" + current_date + "_" + current_time + ".csv"))
         return
 
     def load_ips(self, file_of_ips):
@@ -140,11 +143,11 @@ class Conductor:
                 else:
                     self.ip_objects[ip] = [activated_ip_object, 1]
 
-            print helpers.color("[*] Loaded " + str(total_ips) + " IPs")
+            print(helpers.color("[*] Loaded " + str(total_ips) + " IPs"))
 
         else:
-            print helpers.color("\n\n[*] Error: Invalid file path provided!", warning=True)
-            print helpers.color("[*] Error: Please provide the valid path to a file.", warning=True)
+            print(helpers.color("\n\n[*] Error: Invalid file path provided!", warning=True))
+            print(helpers.color("[*] Error: Please provide the valid path to a file.", warning=True))
         return
 
     def load_intelgathering_functions(self):
@@ -181,8 +184,8 @@ class Conductor:
                         try:
                             self.load_ips(self.cli_args.load)
                         except IndexError:
-                            print helpers.color("\n\n[*] Error: Load command requires a path to a file!", warning=True)
-                            print helpers.color("[*] Ex: load /root/file.txt", warning=True)
+                            print(helpers.color("\n\n[*] Error: Load command requires a path to a file!", warning=True))
+                            print(helpers.color("[*] Ex: load /root/file.txt", warning=True))
                             sys.exit()
 
                     if self.cli_args.file_import is not None:
@@ -208,7 +211,7 @@ class Conductor:
                 else:
 
                     while True:
-                        self.user_command = raw_input(' \n\n[>] Please enter a command: ').strip()
+                        self.user_command = input(' \n\n[>] Please enter a command: ').strip()
                         helpers.print_header()
 
                         if self.user_command is not "":
@@ -217,8 +220,8 @@ class Conductor:
                                 try:
                                     self.load_ips(self.user_command.split()[1])
                                 except IndexError:
-                                    print helpers.color("\n\n[*] Error: Load command requires a path to a file!", warning=True)
-                                    print helpers.color("[*] Ex: load /root/file.txt", warning=True)
+                                    print(helpers.color("\n\n[*] Error: Load command requires a path to a file!", warning=True))
+                                    print(helpers.color("[*] Ex: load /root/file.txt", warning=True))
                                 self.user_command = ""
 
                             elif self.user_command.startswith('gather'):
@@ -226,8 +229,8 @@ class Conductor:
                                     self.run_gather_command(
                                         self.user_command.split()[1])
                                 except IndexError:
-                                    print helpers.color("\n\n[*] Error: Module command requires a module to load!", warning=True)
-                                    print helpers.color("[*] Ex: gather geoinfo", warning=True)
+                                    print(helpers.color("\n\n[*] Error: Module command requires a module to load!", warning=True))
+                                    print(helpers.color("[*] Ex: gather geoinfo", warning=True))
                                 self.user_command = ""
 
                             elif self.user_command.startswith('help'):
@@ -235,9 +238,9 @@ class Conductor:
                                 self.user_command = ""
 
                             elif self.user_command.startswith('exit'):
-                                print helpers.color(
+                                print(helpers.color(
                                     "\n\n[!] Exiting Just Metadata..\n",
-                                    warning=True)
+                                    warning=True))
                                 sys.exit()
 
                             # Code for saving current state to disk
@@ -251,8 +254,8 @@ class Conductor:
                                     self.run_import_command(
                                         self.user_command.split()[1])
                                 except IndexError:
-                                    print helpers.color("[*] Error: Please provide path to file that will be imported.", warning=True)
-                                    print helpers.color("[*] Ex: import metadata1111_1111.state", warning=True)
+                                    print(helpers.color("[*] Error: Please provide path to file that will be imported.", warning=True))
+                                    print(helpers.color("[*] Ex: import metadata1111_1111.state", warning=True))
                                 self.user_command = ""
 
                             elif self.user_command.startswith('ip_info'):
@@ -260,7 +263,7 @@ class Conductor:
                                     self.run_ipinfo_command(
                                         self.user_command.split()[1])
                                 except IndexError:
-                                    print helpers.color("[*] Error: The \"ip_info\" command requires an IP address!", warning=True)
+                                    print(helpers.color("[*] Error: The \"ip_info\" command requires an IP address!", warning=True))
                                     self.check_cli()
                                 self.user_command = ""
 
@@ -275,8 +278,8 @@ class Conductor:
                                     self.run_analyze_command(
                                         self.user_command.split()[1])
                                 except IndexError:
-                                    print helpers.color("\n\n[*] Error: Analyze command requires a module to load!", warning=True)
-                                    print helpers.color("[*] Ex: analyze GeoInfo", warning=True)
+                                    print(helpers.color("\n\n[*] Error: Analyze command requires a module to load!", warning=True))
+                                    print(helpers.color("[*] Ex: analyze GeoInfo", warning=True))
                                 self.user_command = ""
 
                             elif self.user_command.startswith('list'):
@@ -284,38 +287,38 @@ class Conductor:
                                     self.run_list_command(
                                         self.user_command.split()[1])
                                 except IndexError:
-                                    print helpers.color("\n\n[*] Error: You did not provide a module type to display!", warning=True)
-                                    print helpers.color("[*] Ex: list analysis", warning=True)
+                                    print(helpers.color("\n\n[*] Error: You did not provide a module type to display!", warning=True))
+                                    print(helpers.color("[*] Ex: list analysis", warning=True))
                                 self.user_command = ""
 
                             else:
-                                print helpers.color("\n\n[*] Error: You did not provide a valid command!", warning=True)
-                                print helpers.color("[*] Type \"help\" to view valid commands", warning=True)
+                                print(helpers.color("\n\n[*] Error: You did not provide a valid command!", warning=True))
+                                print(helpers.color("[*] Type \"help\" to view valid commands", warning=True))
 
             except KeyboardInterrupt:
-                print helpers.color("\n\n[!] You just rage quit...", warning=True)
+                print(helpers.color("\n\n[!] You just rage quit...", warning=True))
                 sys.exit()
 
             except Exception as e:
-                print helpers.color("\n\n[!] Encountered Error!", warning=True)
-                print helpers.color(e)
-                print helpers.color("[!] Saving state to disk...", warning=True)
-                print helpers.color("[!] Please report this info to the developer!", warning=True)
+                print(helpers.color("\n\n[!] Encountered Error!", warning=True))
+                print(helpers.color(e))
+                print(helpers.color("[!] Saving state to disk...", warning=True))
+                print(helpers.color("[!] Please report this info to the developer!", warning=True))
                 self.save_state()
 
         return
 
     def print_commands(self):
         # Function used to print all available commands
-        print
-        for command, description in self.commands.iteritems():
-            print command + " => " + description
+        print()
+        for command, description in self.commands.items():
+            print(command + " => " + description)
         return
 
     def run_analyze_command(self, analyze_command):
         try:
             hit_module = False
-            for path, analytics_obj in self.analytical_transforms.iteritems():
+            for path, analytics_obj in self.analytical_transforms.items():
                 if analyze_command.lower() == 'all':
                     analytics_obj.analyze(self.ip_objects)
                     hit_module = True
@@ -324,19 +327,19 @@ class Conductor:
                     hit_module = True
                     break
         except IndexError:
-            print helpers.color("\n\n[*] Error: Analyze command requires a module to load!", warning=True)
-            print helpers.color("[*] Ex: analyze GeoInfo", warning=True)
+            print(helpers.color("\n\n[*] Error: Analyze command requires a module to load!", warning=True))
+            print(helpers.color("[*] Ex: analyze GeoInfo", warning=True))
             self.check_cli()
         if not hit_module:
-            print helpers.color("\n\n[*] Error: You didn't provide a valid module!", warning=True)
-            print helpers.color("[*] Please re-run and use a valid module.", warning=True)
+            print(helpers.color("\n\n[*] Error: You didn't provide a valid module!", warning=True))
+            print(helpers.color("[*] Please re-run and use a valid module.", warning=True))
             self.check_cli()
         return
 
     def run_gather_command(self, gather_module):
         gather_module_found = False
         try:
-            for path, ig_obj in self.intelgathering_transforms.iteritems():
+            for path, ig_obj in self.intelgathering_transforms.items():
                 if gather_module.lower() == 'all':
                     ig_obj.gather(self.ip_objects)
                     gather_module_found = True
@@ -345,15 +348,15 @@ class Conductor:
                     gather_module_found = True
                     break
             if not gather_module_found:
-                print helpers.color("\n\n[*] Error: You didn't provide a valid gather module!", warning=True)
-                print helpers.color("[*] Please re-run and use a valid module.", warning=True)
+                print(helpers.color("\n\n[*] Error: You didn't provide a valid gather module!", warning=True))
+                print(helpers.color("[*] Please re-run and use a valid module.", warning=True))
                 self.check_cli()
         except IndexError:
-            print helpers.color("\n\n[*] Error: Module command requires a module to load!", warning=True)
-            print helpers.color("[*] Ex: gather geoinfo", warning=True)
+            print(helpers.color("\n\n[*] Error: Module command requires a module to load!", warning=True))
+            print(helpers.color("[*] Ex: gather geoinfo", warning=True))
             self.check_cli()
         except KeyboardInterrupt:
-            print helpers.color("\n\n[*] You rage quit your intel gathering!", warning=True)
+            print(helpers.color("\n\n[*] You rage quit your intel gathering!", warning=True))
             self.check_cli()
         return
 
@@ -362,41 +365,41 @@ class Conductor:
             if os.path.isfile(import_path):
                 try:
                     self.ip_objects = pickle.load(open(import_path, 'rb'))
-                    print helpers.color("[*] Successfully imported " + import_path)
+                    print(helpers.color("[*] Successfully imported " + import_path))
                 except IndexError:
-                    print helpers.color("[*] Error: Invalid state file.", warning=True)
-                    print helpers.color("[*] Please provide the path to a valid state file.", warning=True)
+                    print(helpers.color("[*] Error: Invalid state file.", warning=True))
+                    print(helpers.color("[*] Please provide the path to a valid state file.", warning=True))
                     self.check_cli()
                 except KeyError:
-                    print helpers.color("[*] Error: Problem parsing your state file.", warning=True)
-                    print helpers.color("[*] Error: Has it been tampered with...?", warning=True)
+                    print(helpers.color("[*] Error: Problem parsing your state file.", warning=True))
+                    print(helpers.color("[*] Error: Has it been tampered with...?", warning=True))
                     self.check_cli()
             else:
-                print helpers.color("[*] Error: Please provide path to file that will be imported.", warning=True)
+                print(helpers.color("[*] Error: Please provide path to file that will be imported.", warning=True))
                 self.check_cli()
         except IndexError:
-            print helpers.color("[*] Error: Please provide path to file that will be imported.", warning=True)
-            print helpers.color("[*] Ex: import metadata1111_1111.state", warning=True)
+            print(helpers.color("[*] Error: Please provide path to file that will be imported.", warning=True))
+            print(helpers.color("[*] Ex: import metadata1111_1111.state", warning=True))
             self.check_cli()
         return
 
     def run_ipinfo_command(self, ip_addr):
         ip_found = False
         try:
-            for path, ip_objd in self.ip_objects.iteritems():
+            for path, ip_objd in self.ip_objects.items():
                 if ip_objd[0].ip_address == ip_addr:
                     attrs = vars(ip_objd[0])
-                    print ip_objd[0].ip_address
-                    print "*" * 25
-                    for key, value in attrs.iteritems():
-                        print helpers.color(key) + ": " + self.collapse(value)
+                    print(ip_objd[0].ip_address)
+                    print("*" * 25)
+                    for key, value in attrs.items():
+                        print(helpers.color(key) + ": " + self.collapse(value))
                     ip_found = True
             if not ip_found:
-                print helpers.color("[*] Error: The provided IP address is not loaded in the framework!", warning=True)
-                print helpers.color("[*] Error: Please provide a new IP.", warning=True)
+                print(helpers.color("[*] Error: The provided IP address is not loaded in the framework!", warning=True))
+                print(helpers.color("[*] Error: Please provide a new IP.", warning=True))
                 self.check_cli()
         except IndexError:
-            print helpers.color("[*] Error: The \"ip_info\" command requires an IP address!", warning=True)
+            print(helpers.color("[*] Error: The \"ip_info\" command requires an IP address!", warning=True))
             self.check_cli()
         return
 
@@ -407,16 +410,16 @@ class Conductor:
             else:
                 list_command = list_cmd.split()[1]
             if list_command.lower() == 'analysis':
-                for path, object_name in self.analytical_transforms.iteritems():
-                    print object_name.cli_name + " => " + object_name.description
-                print "All => Invokes all of the above Analysis modules"
+                for path, object_name in self.analytical_transforms.items():
+                    print(object_name.cli_name + " => " + object_name.description)
+                print("All => Invokes all of the above Analysis modules")
             elif list_command.lower() == 'gather':
-                for path, object_name in self.intelgathering_transforms.iteritems():
-                    print object_name.cli_name + " => " + object_name.description
-                print "All => Invokes all of the above IntelGathering modules"
+                for path, object_name in self.intelgathering_transforms.items():
+                    print(object_name.cli_name + " => " + object_name.description)
+                print("All => Invokes all of the above IntelGathering modules")
         except IndexError:
-            print helpers.color("\n\n[*] Error: You did not provide module type to display!", warning=True)
-            print helpers.color("[*] Ex: list analysis", warning=True)
+            print(helpers.color("\n\n[*] Error: You did not provide module type to display!", warning=True))
+            print(helpers.color("[*] Ex: list analysis", warning=True))
             self.check_cli()
         return
 
@@ -428,5 +431,5 @@ class Conductor:
         pickle.dump(self.ip_objects, open(
             'metadata' + current_date + "_" + current_time
             + '.state', 'wb'))
-        print helpers.color("\nState saved to disk at metadata" + current_date + "_" + current_time + ".state")
+        print(helpers.color("\nState saved to disk at metadata" + current_date + "_" + current_time + ".state"))
         return

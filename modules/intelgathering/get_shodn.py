@@ -20,7 +20,7 @@ class IntelGather:
         result = ""
 
         if type(var) is dict:
-            for field, value in var.iteritems():
+            for field, value in var.items():
                 try:
                     result += "\n" + tabs * "\t" + field.encode('utf-8') + ": " + self.collapse(
                         value, tabs=(tabs + 1))
@@ -35,7 +35,7 @@ class IntelGather:
         elif var is None:
             result += "No Information Available"
 
-        elif type(var) is float or type(var) is int or type(var) is long\
+        elif type(var) is float or type(var) is int or type(var) is int\
                 or type(var) is bool:
             result += str(var)
 
@@ -45,16 +45,16 @@ class IntelGather:
 
     def gather(self, all_ips):
 
-        for path, incoming_ip_obj in all_ips.iteritems():
+        for path, incoming_ip_obj in all_ips.items():
 
             if incoming_ip_obj[0].shodan_info == "":
 
                 if self.api_key is "":
-                    print helpers.color("[*] Error: You didn't provide a Shodan API Key!", warning=True)
-                    print helpers.color("[*] Please edit Shodan module and add in your API Key.", warning=True)
+                    print(helpers.color("[*] Error: You didn't provide a Shodan API Key!", warning=True))
+                    print(helpers.color("[*] Please edit Shodan module and add in your API Key.", warning=True))
                 else:
                     if incoming_ip_obj[0].shodan_info is '':
-                        print "Querying Shodan for information about " + incoming_ip_obj[0].ip_address
+                        print("Querying Shodan for information about " + incoming_ip_obj[0].ip_address)
                         try:
                             json_result = self.api_object.host(incoming_ip_obj[0].ip_address)
                             incoming_ip_obj[0].shodan_info = json_result

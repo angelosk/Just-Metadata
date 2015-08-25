@@ -80,13 +80,13 @@ if __name__ == '__main__':
             sys.exit()
 
         if args.list is not None and args.list.lower() != 'analysis' and args.list.lower() != 'gather':
-            print helpers.color("[*] The list options requires you to specify what to list!", warning=True)
-            print helpers.color("[*] Ex: list analysis or list gather", warning=True)
+            print(helpers.color("[*] The list options requires you to specify what to list!", warning=True))
+            print(helpers.color("[*] Ex: list analysis or list gather", warning=True))
             sys.exit()
 
         if args.load is None and args.file_import is None and args.list is None:
-            print helpers.color("[*] You did not provide a file with IPs, or state to load!", warning=True)
-            print helpers.color("[*] Please re-run and provide a file!", warning=True)
+            print(helpers.color("[*] You did not provide a file with IPs, or state to load!", warning=True))
+            print(helpers.color("[*] Please re-run and provide a file!", warning=True))
             sys.exit()
 
     # instantiate the orchesta object and call the main menubar

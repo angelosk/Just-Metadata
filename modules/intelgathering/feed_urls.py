@@ -6,7 +6,7 @@ List of feeds came from the isthisipbad project - go check it out!
 https://github.com/jgamblin/isthisipbad
 '''
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 
 class IntelGather:
@@ -18,184 +18,184 @@ class IntelGather:
     def gather(self, all_ips):
 
         try:
-            print "Grabbing list of TOR exit nodes.."
-            req = urllib2.Request(
+            print("Grabbing list of TOR exit nodes..")
+            req = urllib.request.Request(
                 'http://torstatus.blutmagie.de/ip_list_exit.php/Tor_ip_list_EXIT.csv')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             tor_response = response.read()
         except NameError:
             tor_response = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             tor_response = "Not able to grab information"
 
         try:
-            print "Grabbing attacker IP list from the Animus project..."
-            req = urllib2.Request(
+            print("Grabbing attacker IP list from the Animus project...")
+            req = urllib.request.Request(
                 'https://raw.githubusercontent.com/animus-project/threat_data/master/master_lists/all_ips_frequency.txt')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             animus_lines = response.read()
         except NameError:
             animus_lines = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             animus_lines = "Not able to grab information"
 
         try:
-            print "Grabbing EmergingThreats list..."
-            req = urllib2.Request(
+            print("Grabbing EmergingThreats list...")
+            req = urllib.request.Request(
                 'http://rules.emergingthreats.net/blockrules/compromised-ips.txt')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             ethreats_response = response.read()
         except NameError:
             ethreats_response = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             ethreats_response = "Not able to grab information"
 
         try:
-            print "Grabbing AlienVault reputation list..."
-            req = urllib2.Request(
+            print("Grabbing AlienVault reputation list...")
+            req = urllib.request.Request(
                 'http://reputation.alienvault.com/reputation.data')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             alientvault_resp = response.read()
         except NameError:
             alientvault_resp = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             alientvault_resp = "Not able to grab information"
 
         try:
-            print "Grabbing Blocklist.de info..."
-            req = urllib2.Request(
+            print("Grabbing Blocklist.de info...")
+            req = urllib.request.Request(
                 'http://www.blocklist.de/lists/bruteforcelogin.txt')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             blocklist_resp = response.read()
         except NameError:
             blocklist_resp = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             blocklist_resp = "Not able to grab information"
 
         try:
-            print "Grabbing DragonResearch's SSH list..."
-            req = urllib2.Request(
+            print("Grabbing DragonResearch's SSH list...")
+            req = urllib.request.Request(
                 'http://dragonresearchgroup.org/insight/sshpwauth.txt')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             drag_ssh_resp = response.read()
         except NameError:
             drag_ssh_resp = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             drag_ssh_resp = "Not able to grab information"
 
         try:
-            print "Grabbing DragonResearch's VNC list..."
-            req = urllib2.Request(
+            print("Grabbing DragonResearch's VNC list...")
+            req = urllib.request.Request(
                 'http://dragonresearchgroup.org/insight/vncprobe.txt')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             drag_vnc_resp = response.read()
         except NameError:
             drag_vnc_resp = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             drag_vnc_resp = "Not able to grab information"
 
         try:
-            print "Grabbing OpenBlock IP list..."
-            req = urllib2.Request('http://www.openbl.org/lists/date_all.txt')
+            print("Grabbing OpenBlock IP list...")
+            req = urllib.request.Request('http://www.openbl.org/lists/date_all.txt')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             openblock_resp = response.read()
         except NameError:
             openblock_resp = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             openblock_resp = "Not able to grab information"
 
         try:
-            print "Grabbing NoThinkMalware list..."
-            req = urllib2.Request(
+            print("Grabbing NoThinkMalware list...")
+            req = urllib.request.Request(
                 'http://www.nothink.org/blacklist/blacklist_malware_http.txt')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             ntmalware_resp = response.read()
         except NameError:
             ntmalware_resp = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             ntmalware_resp = "Not able to grab information"
 
         try:
-            print "Grabbing NoThinkSSH list..."
-            req = urllib2.Request(
+            print("Grabbing NoThinkSSH list...")
+            req = urllib.request.Request(
                 'http://www.nothink.org/blacklist/blacklist_ssh_all.txt')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             ntssh_resp = response.read()
         except NameError:
             ntssh_resp = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             ntssh_resp = "Not able to grab information"
 
         try:
-            print "Grabbing Feodo list..."
-            req = urllib2.Request(
+            print("Grabbing Feodo list...")
+            req = urllib.request.Request(
                 'http://rules.emergingthreats.net/blockrules/compromised-ips.txt')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             feodo_resp = response.read()
         except NameError:
             feodo_resp = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             feodo_resp = "Not able to grab information"
 
         try:
-            print "Grabbing antispam spam list..."
-            req = urllib2.Request('http://antispam.imp.ch/spamlist')
+            print("Grabbing antispam spam list...")
+            req = urllib.request.Request('http://antispam.imp.ch/spamlist')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             antispam_resp = response.read()
         except NameError:
             antispam_resp = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             antispam_resp = "Not able to grab information"
 
         try:
-            print "Grabbing malc0de list..."
-            req = urllib2.Request('http://malc0de.com/bl/IP_Blacklist.txt')
+            print("Grabbing malc0de list...")
+            req = urllib.request.Request('http://malc0de.com/bl/IP_Blacklist.txt')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             malc0de_resp = response.read()
         except NameError:
             malc0de_resp = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             malc0de_resp = "Not able to grab information"
 
         try:
-            print "Grabbing MalwareBytes list..."
-            req = urllib2.Request('http://hosts-file.net/rss.asp')
+            print("Grabbing MalwareBytes list...")
+            req = urllib.request.Request('http://hosts-file.net/rss.asp')
             req.add_header(
                 'User-agent', 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0')
-            response = urllib2.urlopen(req)
+            response = urllib.request.urlopen(req)
             malbytes_resp = response.read()
         except NameError:
             malbytes_resp = "Not able to grab information"
-        except urllib2.HTTPError:
+        except urllib.error.HTTPError:
             malbytes_resp = "Not able to grab information"
 
-        for path, incoming_ip_obj in all_ips.iteritems():
+        for path, incoming_ip_obj in all_ips.items():
 
             if incoming_ip_obj[0].tor_exit is "":
                 if incoming_ip_obj[0].ip_address in tor_response:

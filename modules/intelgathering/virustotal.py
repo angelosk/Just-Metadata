@@ -6,7 +6,7 @@ loaded IP addresses.
 import json
 import re
 import time
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from common import helpers
 
 
@@ -28,7 +28,7 @@ class IntelGather:
         result = ""
 
         if type(var) is dict:
-            for field, value in var.iteritems():
+            for field, value in var.items():
                 result += "\n" + tabs * "\t" + field + ": " + self.collapse(
                     value, tabs=(tabs + 1))
 
@@ -42,25 +42,25 @@ class IntelGather:
 
     def gather(self, all_ips):
 
-        for path, incoming_ip_obj in all_ips.iteritems():
+        for path, incoming_ip_obj in all_ips.items():
 
             if self.check_host(incoming_ip_obj[0].ip_address) and incoming_ip_obj[0].virustotal is '':
                 request_url = self.api_url + 'ip-address/report?'
                 parameters = {'ip': incoming_ip_obj[0].ip_address, 'apikey': self.api_key}
-                encoded_params = urllib.urlencode(parameters)
+                encoded_params = urllib.parse.urlencode(parameters)
                 full_url = request_url + encoded_params
                 try:
-                    response = urllib.urlopen(full_url).read()
+                    response = urllib.request.urlopen(full_url).read()
                     json_response = json.loads(response)
 
                     if json_response['response_code'] == 0:
-                        print "No information within VirusTotal for " + incoming_ip_obj[0].ip_address
+                        print("No information within VirusTotal for " + incoming_ip_obj[0].ip_address)
                         incoming_ip_obj[0].virustotal = "No information within VirusTotal for " + incoming_ip_obj[0].ip_address
                     else:
-                        print "Information found on " + helpers.color(incoming_ip_obj[0].ip_address)
+                        print("Information found on " + helpers.color(incoming_ip_obj[0].ip_address))
                         incoming_ip_obj[0].virustotal = json_response
                 except IOError:
-                    print helpers.color("Error while connecting to Virustotal for " + incoming_ip_obj[0].ip_address, warning=True)
+                    print(helpers.color("Error while connecting to Virustotal for " + incoming_ip_obj[0].ip_address, warning=True))
 
                 time.sleep(16)
         return

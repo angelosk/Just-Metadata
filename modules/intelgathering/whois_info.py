@@ -16,14 +16,14 @@ class IntelGather:
 
     def gather(self, all_ips):
 
-        for path, incoming_ip_obj in all_ips.iteritems():
+        for path, incoming_ip_obj in all_ips.items():
 
             if incoming_ip_obj[0].ip_whois == "":
 
                 try:
-                    print "Gathering whois information about " + incoming_ip_obj[0].ip_address
+                    print("Gathering whois information about " + incoming_ip_obj[0].ip_address)
                     ip_whois = IPWhois(incoming_ip_obj[0].ip_address)
                     incoming_ip_obj[0].ip_whois = ip_whois.lookup()
                 except IPDefinedError:
-                    print helpers.color("[*] Error: Private IP address, skipping IP!", warning=True)
+                    print(helpers.color("[*] Error: Private IP address, skipping IP!", warning=True))
         return

@@ -16,14 +16,14 @@ class Analytics:
 
     # This will sort the dictionary passed into it (or called on itself)
     def dict_sorter(self, data_dictionary):
-        return sorted(data_dictionary.items(), key=lambda x: x[1])
+        return sorted(list(data_dictionary.items()), key=lambda x: x[1])
 
     def analyze(self, all_ip_objects):
 
         if self.top_number == '':
-            print "You selected \"GeoInfo\" module, how many items do you want returned?"
-            print "Ex: 10"
-            self.top_number = int(raw_input(' \n\n[>] Return the Top: ').strip())
+            print("You selected \"GeoInfo\" module, how many items do you want returned?")
+            print("Ex: 10")
+            self.top_number = int(input(' \n\n[>] Return the Top: ').strip())
 
         # Creating Dictionaries for top values
         top_countries = {}
@@ -36,7 +36,7 @@ class Analytics:
         top_gps = {}
 
         # Looping over IP address objects
-        for key, value in all_ip_objects.iteritems():
+        for key, value in all_ip_objects.items():
             if value[0].ip_country is not '':
                 if value[0].ip_country not in top_countries:
                     top_countries[value[0].ip_country] = value[1]
@@ -101,122 +101,122 @@ class Analytics:
 
         # Sort the dictionaries, and then get the top 10 of each dict
         sorted_countries = self.dict_sorter(top_countries)
-        print
-        print "         Top " + str(self.top_number) + " Countries"
-        print " (Country : Number of Occurances)"
-        print "==================================="
+        print()
+        print("         Top " + str(self.top_number) + " Countries")
+        print(" (Country : Number of Occurances)")
+        print("===================================")
 
         # iterate through sorted countries list
         list_counter = 1
         while ((list_counter <= self.top_number) and ((list_counter -1) != len(sorted_countries))):
             country_tuple = sorted_countries[-list_counter]
-            print country_tuple[0] + " : " + str(country_tuple[1])
+            print(country_tuple[0] + " : " + str(country_tuple[1]))
             list_counter += 1
-        print
+        print()
 
         # Sort the dictionaries, and then get the top 10 of each dict
         top_cities = self.dict_sorter(top_cities)
-        print
-        print "         Top " + str(self.top_number) + " Cities"
-        print " (City : Number of Occurances)"
-        print "==================================="
+        print()
+        print("         Top " + str(self.top_number) + " Cities")
+        print(" (City : Number of Occurances)")
+        print("===================================")
 
         # iterate through sorted countries list
         list_counter = 1
         while ((list_counter <= self.top_number) and ((list_counter -1) != len(top_cities))):
             sorted_cities = top_cities[-list_counter]
-            print sorted_cities[0] + " : " + str(sorted_cities[1])
+            print(sorted_cities[0] + " : " + str(sorted_cities[1]))
             list_counter += 1
-        print
+        print()
 
         # Sort the dictionaries, and then get the top 10 of each dict
         sorted_regions = self.dict_sorter(top_regions)
-        print
-        print "         Top " + str(self.top_number) + " Regions"
-        print " (Region : Number of Occurances)"
-        print "==================================="
+        print()
+        print("         Top " + str(self.top_number) + " Regions")
+        print(" (Region : Number of Occurances)")
+        print("===================================")
 
         # iterate through sorted countries list
         list_counter = 1
         while ((list_counter <= self.top_number) and ((list_counter -1) != len(sorted_regions))):
             region_tuple = sorted_regions[-list_counter]
-            print region_tuple[0] + " : " + str(region_tuple[1])
+            print(region_tuple[0] + " : " + str(region_tuple[1]))
             list_counter += 1
-        print
+        print()
 
         # Sort the dictionaries, and then get the top 10 of each dict
         sorted_timezones = self.dict_sorter(top_timezones)
-        print
-        print "         Top " + str(self.top_number) + " Timezones"
-        print " (Timezone : Number of Occurances)"
-        print "==================================="
+        print()
+        print("         Top " + str(self.top_number) + " Timezones")
+        print(" (Timezone : Number of Occurances)")
+        print("===================================")
 
         # iterate through sorted countries list
         list_counter = 1
         while ((list_counter <= self.top_number) and ((list_counter -1) != len(sorted_timezones))):
             timezone_tuple = sorted_timezones[-list_counter]
-            print timezone_tuple[0] + " : " + str(timezone_tuple[1])
+            print(timezone_tuple[0] + " : " + str(timezone_tuple[1]))
             list_counter += 1
-        print
+        print()
 
         # Sort the dictionaries, and then get the top 10 of each dict
         sorted_gps = self.dict_sorter(top_gps)
-        print
-        print "         Top " + str(self.top_number) + " GPS Coordinates"
-        print " (GPS Coordinates : Number of Occurances)"
-        print "==================================="
+        print()
+        print("         Top " + str(self.top_number) + " GPS Coordinates")
+        print(" (GPS Coordinates : Number of Occurances)")
+        print("===================================")
 
         # iterate through sorted countries list
         list_counter = 1
         while ((list_counter <= self.top_number) and ((list_counter -1) != len(sorted_gps))):
             gps_tuple = sorted_gps[-list_counter]
-            print gps_tuple[0] + " : " + str(gps_tuple[1])
+            print(gps_tuple[0] + " : " + str(gps_tuple[1]))
             list_counter += 1
-        print
+        print()
 
         # Sort the dictionaries, and then get the top 10 of each dict
         sorted_zipcodes = self.dict_sorter(top_zipcodes)
-        print
-        print "         Top " + str(self.top_number) + " ZipCodes"
-        print " (ZipCode : Number of Occurances)"
-        print "==================================="
+        print()
+        print("         Top " + str(self.top_number) + " ZipCodes")
+        print(" (ZipCode : Number of Occurances)")
+        print("===================================")
 
         # iterate through sorted countries list
         list_counter = 1
         while ((list_counter <= self.top_number) and ((list_counter -1) != len(sorted_zipcodes))):
             zipcode_tuple = sorted_zipcodes[-list_counter]
-            print zipcode_tuple[0] + " : " + str(zipcode_tuple[1])
+            print(zipcode_tuple[0] + " : " + str(zipcode_tuple[1]))
             list_counter += 1
-        print
+        print()
 
         # Sort the dictionaries, and then get the top 10 of each dict
         sorted_isps = self.dict_sorter(top_isp)
-        print
-        print "         Top " + str(self.top_number) + " ISPs"
-        print " (ISPs : Number of Occurances)"
-        print "==================================="
+        print()
+        print("         Top " + str(self.top_number) + " ISPs")
+        print(" (ISPs : Number of Occurances)")
+        print("===================================")
 
         # iterate through sorted countries list
         list_counter = 1
         while ((list_counter <= self.top_number) and ((list_counter -1) != len(sorted_isps))):
             isp_tuple = sorted_isps[-list_counter]
-            print isp_tuple[0] + " : " + str(isp_tuple[1])
+            print(isp_tuple[0] + " : " + str(isp_tuple[1]))
             list_counter += 1
-        print
+        print()
 
         # Sort the dictionaries, and then get the top 10 of each dict
         sorted_orgs = self.dict_sorter(top_organization)
-        print
-        print "         Top " + str(self.top_number) + " Organizations"
-        print " (Organizations : Number of Occurances)"
-        print "==================================="
+        print()
+        print("         Top " + str(self.top_number) + " Organizations")
+        print(" (Organizations : Number of Occurances)")
+        print("===================================")
 
         # iterate through sorted countries list
         list_counter = 1
         while ((list_counter <= self.top_number) and ((list_counter -1) != len(sorted_orgs))):
             org_tuple = sorted_orgs[-list_counter]
-            print org_tuple[0] + " : " + str(org_tuple[1])
+            print(org_tuple[0] + " : " + str(org_tuple[1]))
             list_counter += 1
-        print
+        print()
 
         return

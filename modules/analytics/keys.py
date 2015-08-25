@@ -20,15 +20,15 @@ class Analytics:
     def analyze(self, all_ip_objects):
 
         if self.top_number == '':
-            print "You selected \"Keys\" module, how many items do you want returned?"
-            print "Ex: 10"
-            self.top_number = int(raw_input(' \n\n[>] Return the Top: ').strip())
+            print("You selected \"Keys\" module, how many items do you want returned?")
+            print("Ex: 10")
+            self.top_number = int(input(' \n\n[>] Return the Top: ').strip())
 
         ssh_keys = {}
         https_keys = {}
         chain_keys = {}
 
-        for path, single_ip in all_ip_objects.iteritems():
+        for path, single_ip in all_ip_objects.items():
             ssh_jailbreak = False
             https_jailbreak = False
             chain_jailbreak = False
@@ -74,55 +74,55 @@ class Analytics:
         # iterate through sorted unique ssh keys
         sorted_ssh_keys = self.dict_sorter(ssh_keys)
         list_counter = 1
-        print "*" * 70
-        print helpers.color(" " * 20 + "Shared SSH Keys" + " " * 20)
-        print "*" * 70
+        print("*" * 70)
+        print(helpers.color(" " * 20 + "Shared SSH Keys" + " " * 20))
+        print("*" * 70)
         while ((list_counter <= self.top_number) and ((list_counter -1) != len(sorted_ssh_keys))):
             sorted_ssh_tuple = sorted_ssh_keys[-list_counter]
-            print sorted_ssh_tuple[0]
-            print "*" * 64
-            print "SSH Key is shared across the following IPs: "
+            print(sorted_ssh_tuple[0])
+            print("*" * 64)
+            print("SSH Key is shared across the following IPs: ")
             for ip in sorted_ssh_tuple[1]:
-                print helpers.color(ip)
-            print "\n"
+                print(helpers.color(ip))
+            print("\n")
             list_counter += 1
-        print
+        print()
 
         # Iterate over shared https public keys
         sorted_https_keys = self.dict_sorter(https_keys)
         list_counter = 1
-        print "*" * 70
-        print helpers.color(" " * 20 + "Shared HTTPS Public Keys" + " " * 20)
-        print "*" * 70
+        print("*" * 70)
+        print(helpers.color(" " * 20 + "Shared HTTPS Public Keys" + " " * 20))
+        print("*" * 70)
         while ((list_counter <= self.top_number) and ((list_counter -1) != len(sorted_https_keys))):
             sorted_https_tuple = sorted_https_keys[-list_counter]
-            print sorted_https_tuple[0]
-            print "*" * 64
-            print "HTTPS Public Key is shared across the following IPs: "
+            print(sorted_https_tuple[0])
+            print("*" * 64)
+            print("HTTPS Public Key is shared across the following IPs: ")
             for ip in sorted_https_tuple[1]:
-                print helpers.color(ip)
-            print "\n"
+                print(helpers.color(ip))
+            print("\n")
             list_counter += 1
-        print
+        print()
 
         # Iterate over shared certificate
         sorted_chain_keys = self.dict_sorter(chain_keys)
         list_counter = 1
-        print "*" * 70
-        print helpers.color(" " * 20 + "Shared Certificate Chain" + " " * 20)
-        print "*" * 70
+        print("*" * 70)
+        print(helpers.color(" " * 20 + "Shared Certificate Chain" + " " * 20))
+        print("*" * 70)
         while ((list_counter <= self.top_number) and ((list_counter -1) != len(sorted_chain_keys))):
             sorted_chain_tuple = sorted_chain_keys[-list_counter]
-            print sorted_chain_tuple[0]
-            print "*" * 64
-            print "Certificate Chain is shared across the following IPs: "
+            print(sorted_chain_tuple[0])
+            print("*" * 64)
+            print("Certificate Chain is shared across the following IPs: ")
             for ip in sorted_chain_tuple[1]:
-                print helpers.color(ip)
-            print "\n"
+                print(helpers.color(ip))
+            print("\n")
             list_counter += 1
-        print
+        print()
 
         return
 
     def dict_sorter(self, data_dictionary):
-        return sorted(data_dictionary.items(), key=lambda x: len(x[1]))
+        return sorted(list(data_dictionary.items()), key=lambda x: len(x[1]))
